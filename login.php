@@ -1,10 +1,10 @@
 <?php
   
   require('db.inc.php');
-
+  $error_msg=' ';
   if(isset($_POST['email']) && isset($_POST['password'])){
     
-     $error_msg='';
+    
       //getting form data
       $email = mysqli_real_escape_string($connection, $_POST['email']);
       $password = mysqli_real_escape_string($connection, $_POST['password']);

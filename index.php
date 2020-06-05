@@ -7,7 +7,14 @@ if(!isset($_SESSION['ROLE'])){
 }
 
 //fethich all department
-$res = mysqli_query($connection,"SELECT * FROM department");
+$res = mysqli_query($connection,"SELECT * FROM department ORDER BY ID DESC");
+
+if(isset($_GET['type']) == "delete" && $_GET['id']){
+   $id = mysqli_real_escape_string($connection,$_GET['id']);
+   mysqli_query($connection,"DELETE FROM DEPARTMENT WHERE id='$id'");
+   header('location:index.php');
+}
+
 ?>
 <div class="content pb-0">
             <div class="orders">
@@ -16,7 +23,7 @@ $res = mysqli_query($connection,"SELECT * FROM department");
                      <div class="card">
                         <div class="card-body">
                            <h4 class="box-title">Department Master </h4>
-						   <h4 class="box_title_link"><a href="add_department.php">Add Department</a> </h4>
+						         <h4 class="box_title_link"><a href="add_department.php">Add Department</a> </h4>
                         </div>
                         <div class="card-body--">
                            <div class="table-stats order-table ov-h">
@@ -30,14 +37,14 @@ $res = mysqli_query($connection,"SELECT * FROM department");
                                     </tr>
                                  </thead>
                                  <tbody>
-                                 <?php while($row = mysqli_fetch_assoc($res)){ ?>
-									<tr>
-                                       <td>1</td>
-									   <td>1</td>
-                                       <td>1</td>
-									   <td>1</td>
+                                 <?php $i=1 ; while($row = mysqli_fetch_assoc($res)){ ?>
+								          	<tr>
+                                       <td><?php echo $i;?></td>
+									            <td><?php echo $row['id'];?></td>
+                                       <td><?php echo $row['department'];?></td>
+									             <td><a href="add_department.php?id=<?php echo $row['id']?>">Edit</a><a href="index.php?id=<?php echo $row['id']?>&type=delete">Delete</a></td>
                                     </tr>
-                                 <?php } ?>
+                                 <?php } $i++;?>
                                  </tbody>
                               </table>
                            </div>
